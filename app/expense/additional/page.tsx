@@ -34,7 +34,7 @@ const categoryColors = {
   misc: "bg-gray-100 text-gray-800",
 }
 
-export default function ExpenseTracker() {
+export default function ExpenseInputForm() {
   const [expenses, setExpenses] = useState<Expense[]>([])
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split("T")[0],
