@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { Trash2Icon } from "lucide-react"
+import { ColumnDef } from "@tanstack/react-table"
+import { DataTable } from "./dataTable"
 
 interface Expense {
   id: string
@@ -31,6 +33,33 @@ const categoryColors = {
   fixed: "bg-purple-100 text-purple-800",
   misc: "bg-gray-100 text-gray-800",
 }
+
+// カテゴリ名を取得
+const getCategoryLabel = (value: string) => {
+  return categories.find((cat) => cat.value === value)?.label || value
+}
+
+// テーブル列の定義
+export const columns: ColumnDef<Expense>[] = [
+  {
+    accessorKey: "date",
+    header: "日付",
+  },
+  {
+    accessorKey: "amount",
+    header: "金額",
+  },
+  {
+    accessorKey: "category",
+    header: "カテゴリ",
+    cell:({row}) => {
+      const label = ""
+      return <Badge className={categoryColors[row.original.category as keyof typeof categoryColors]}>{getCategoryLabel(row.original.category)}</Badge>
+    },
+  },
+]
+
+
 
 export default function ExpenseDashboard() {
   const [expenses, setExpenses] = useState<Expense[]>([])
@@ -58,17 +87,14 @@ export default function ExpenseDashboard() {
     setExpenses(updatedExpenses)
     saveToLocalStorage(updatedExpenses)
   }
-    // 金額をフォーマット
+  // 金額をフォーマット
   const formatAmount = (amount: number) => {
     return new Intl.NumberFormat("ja-JP", {
       style: "currency",
       currency: "JPY",
     }).format(amount)
   }
-  // カテゴリ名を取得
-  const getCategoryLabel = (value: string) => {
-    return categories.find((cat) => cat.value === value)?.label || value
-  }
+
   // 日付をフォーマット
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -147,6 +173,8 @@ export default function ExpenseDashboard() {
             )}
           </CardContent>
         </Card>
+        {/* 一覧テーブル */}
+        <DataTable columns={columns} data={expenses} />
       </div>
     </div>
   )
