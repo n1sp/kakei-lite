@@ -2,14 +2,14 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState} from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { CalendarIcon, PlusIcon, Trash2Icon } from "lucide-react"
+import { CalendarIcon, PlusIcon} from "lucide-react"
 
 interface Expense {
   id: string
@@ -26,13 +26,6 @@ const categories = [
   { value: "fixed", label: "固定費" },
   { value: "misc", label: "雑費" },
 ]
-
-const categoryColors = {
-  food: "bg-orange-100 text-orange-800",
-  living: "bg-blue-100 text-blue-800",
-  fixed: "bg-purple-100 text-purple-800",
-  misc: "bg-gray-100 text-gray-800",
-}
 
 export default function ExpenseInputForm() {
   const [expenses, setExpenses] = useState<Expense[]>([])
