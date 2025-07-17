@@ -40,7 +40,7 @@ const getCategoryLabel = (value: string) => {
 }
 
 // テーブル列の定義
-export const columns: ColumnDef<Expense>[] = [
+const columns: ColumnDef<Expense>[] = [
   {
     accessorKey: "date",
     header: "日付",
@@ -53,7 +53,6 @@ export const columns: ColumnDef<Expense>[] = [
     accessorKey: "category",
     header: "カテゴリ",
     cell:({row}) => {
-      const label = ""
       return <Badge className={categoryColors[row.original.category as keyof typeof categoryColors]}>{getCategoryLabel(row.original.category)}</Badge>
     },
   },
@@ -63,12 +62,12 @@ export const columns: ColumnDef<Expense>[] = [
 
 export default function ExpenseDashboard() {
   const [expenses, setExpenses] = useState<Expense[]>([])
-  const [formData, setFormData] = useState({
-    date: new Date().toISOString().split("T")[0],
-    amount: "",
-    category: "",
-    memo: "",
-  })
+  // const [formData, setFormData] = useState({
+  //   date: new Date().toISOString().split("T")[0],
+  //   amount: "",
+  //   category: "",
+  //   memo: "",
+  // })
   // localStorageからデータを読み込み
   useEffect(() => {
     const savedExpenses = localStorage.getItem("expenses")
