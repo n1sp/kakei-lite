@@ -10,22 +10,8 @@ import { Badge } from "@/components/ui/badge"
 import { Trash2Icon } from "lucide-react"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "./dataTable"
-
-interface Expense {
-  id: string
-  date: string
-  amount: number
-  category: string
-  memo: string
-  createdAt: number
-}
-
-const categories = [
-  { value: "food", label: "食費" },
-  { value: "living", label: "生活費" },
-  { value: "fixed", label: "固定費" },
-  { value: "misc", label: "雑費" },
-]
+import { Expense } from "@/types/expense"
+import { categories } from "@/constants/categories"
 
 const categoryColors = {
   food: "bg-orange-100 text-orange-800",

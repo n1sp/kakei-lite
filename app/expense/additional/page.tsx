@@ -10,22 +10,8 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { CalendarIcon, PlusIcon} from "lucide-react"
-
-interface Expense {
-  id: string
-  date: string
-  amount: number
-  category: string
-  memo: string
-  createdAt: number
-}
-
-const categories = [
-  { value: "food", label: "食費" },
-  { value: "living", label: "生活費" },
-  { value: "fixed", label: "固定費" },
-  { value: "misc", label: "雑費" },
-]
+import { Expense } from "@/types/expense"
+import { categories } from "@/constants/categories"
 
 export default function ExpenseInputForm() {
   const [expenses, setExpenses] = useState<Expense[]>([])
