@@ -4,4 +4,4 @@ export const EXPENSE_CATEGORIES = [
   { value: "living", label: "生活費" },
   { value: "fixed", label: "固定費" },
   { value: "misc", label: "雑費" },
-]
+] as const;
