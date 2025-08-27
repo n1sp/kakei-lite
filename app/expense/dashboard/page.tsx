@@ -11,14 +11,7 @@ import { Trash2Icon } from "lucide-react"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "./dataTable"
 import { Expense } from "@/types/expense"
-import { EXPENSE_CATEGORIES } from "@/constants/expense-categories"
-
-const categoryColors = {
-  food: "bg-orange-100 text-orange-800",
-  living: "bg-blue-100 text-blue-800",
-  fixed: "bg-purple-100 text-purple-800",
-  misc: "bg-gray-100 text-gray-800",
-}
+import { EXPENSE_CATEGORIES,EPENSE_CATEGORY_COLORS } from "@/constants/expense-categories"
 
 // カテゴリ名を取得
 const getCategoryLabel = (value: string) => {
@@ -39,7 +32,7 @@ const columns: ColumnDef<Expense>[] = [
     accessorKey: "category",
     header: "カテゴリ",
     cell:({row}) => {
-      return <Badge className={categoryColors[row.original.category as keyof typeof categoryColors]}>{getCategoryLabel(row.original.category)}</Badge>
+      return <Badge className={EPENSE_CATEGORY_COLORS[row.original.category as keyof typeof EPENSE_CATEGORY_COLORS]}>{getCategoryLabel(row.original.category)}</Badge>
     },
   },
 ]
@@ -133,7 +126,7 @@ export default function ExpenseDashboard() {
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-3">
                           <span className="text-sm text-gray-500">{formatDate(expense.date)}</span>
-                          <Badge className={categoryColors[expense.category as keyof typeof categoryColors]}>
+                          <Badge className={EPENSE_CATEGORY_COLORS[expense.category as keyof typeof EPENSE_CATEGORY_COLORS]}>
                             {getCategoryLabel(expense.category)}
                           </Badge>
                         </div>
