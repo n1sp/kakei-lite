@@ -1,5 +1,5 @@
 // Expense category definitions
-export const categories = [
+export const EXPENSE_CATEGORIES = [
   { value: "food", label: "食費" },
   { value: "living", label: "生活費" },
   { value: "fixed", label: "固定費" },

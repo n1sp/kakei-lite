@@ -11,7 +11,7 @@ import { Trash2Icon } from "lucide-react"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "./dataTable"
 import { Expense } from "@/types/expense"
-import { categories } from "@/constants/categories"
+import { EXPENSE_CATEGORIES } from "@/constants/expense-categories"
 
 const categoryColors = {
   food: "bg-orange-100 text-orange-800",
@@ -22,7 +22,7 @@ const categoryColors = {
 
 // カテゴリ名を取得
 const getCategoryLabel = (value: string) => {
-  return categories.find((cat) => cat.value === value)?.label || value
+  return EXPENSE_CATEGORIES.find((cat) => cat.value === value)?.label || value
 }
 
 // テーブル列の定義

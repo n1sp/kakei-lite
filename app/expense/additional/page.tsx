@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { CalendarIcon, PlusIcon} from "lucide-react"
 import { Expense } from "@/types/expense"
-import { categories } from "@/constants/categories"
+import { EXPENSE_CATEGORIES } from "@/constants/expense-categories"
 
 export default function ExpenseInputForm() {
   const [expenses, setExpenses] = useState<Expense[]>([])
@@ -113,7 +113,7 @@ export default function ExpenseInputForm() {
                     <SelectValue placeholder="カテゴリを選択してください" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
+                    {EXPENSE_CATEGORIES.map((category) => (
                       <SelectItem key={category.value} value={category.value}>
                         {category.label}
                       </SelectItem>
