@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { CalendarIcon, PlusIcon} from "lucide-react"
 import { Expense } from "@/types/expense"
 import { EXPENSE_CATEGORIES } from "@/constants/expense-categories"
+import { saveExpenses, loadExpenses } from "@/utils/storage"
 
 export default function ExpenseInputForm() {
   const [expenses, setExpenses] = useState<Expense[]>([])
@@ -21,11 +22,6 @@ export default function ExpenseInputForm() {
     category: "",
     memo: "",
   })
-
-  // localStorageにデータを保存
-  const saveToLocalStorage = (newExpenses: Expense[]) => {
-    localStorage.setItem("expenses", JSON.stringify(newExpenses))
-  }
 
   // 支出を追加
   const handleAddExpense = (e: React.FormEvent) => {
@@ -44,7 +40,7 @@ export default function ExpenseInputForm() {
     }
     const updatedExpenses = [newExpense, ...expenses]
     setExpenses(updatedExpenses)
-    saveToLocalStorage(updatedExpenses)
+    saveExpenses(updatedExpenses)
 
     // フォームをリセット（日付は今日のまま）
     setFormData({

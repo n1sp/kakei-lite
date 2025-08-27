@@ -12,6 +12,8 @@ import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "./dataTable"
 import { Expense } from "@/types/expense"
 import { EXPENSE_CATEGORIES,EPENSE_CATEGORY_COLORS } from "@/constants/expense-categories"
+import { formatAmount, formatDate } from "@/utils/format"
+import { saveExpenses, loadExpenses } from "@/utils/storage"
 
 // カテゴリ名を取得
 const getCategoryLabel = (value: string) => {
@@ -37,52 +39,19 @@ const columns: ColumnDef<Expense>[] = [
   },
 ]
 
-
-
 export default function ExpenseDashboard() {
   const [expenses, setExpenses] = useState<Expense[]>([])
-  // const [formData, setFormData] = useState({
-  //   date: new Date().toISOString().split("T")[0],
-  //   amount: "",
-  //   category: "",
-  //   memo: "",
-  // })
   // localStorageからデータを読み込み
   useEffect(() => {
-    const savedExpenses = localStorage.getItem("expenses")
-    if (savedExpenses) {
-      setExpenses(JSON.parse(savedExpenses))
-    }
+    setExpenses(loadExpenses())
   }, [])
   
-  // localStorageにデータを保存
-  const saveToLocalStorage = (newExpenses: Expense[]) => {
-    localStorage.setItem("expenses", JSON.stringify(newExpenses))
-  }
   // 支出を削除
   const handleDeleteExpense = (id: string) => {
     const updatedExpenses = expenses.filter((expense) => expense.id !== id)
     setExpenses(updatedExpenses)
-    saveToLocalStorage(updatedExpenses)
+    saveExpenses(updatedExpenses)
   }
-  // 金額をフォーマット
-  const formatAmount = (amount: number) => {
-    return new Intl.NumberFormat("ja-JP", {
-      style: "currency",
-      currency: "JPY",
-    }).format(amount)
-  }
-
-  // 日付をフォーマット
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("ja-JP", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    })
-  }
-
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
