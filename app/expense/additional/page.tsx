@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { CalendarIcon, PlusIcon} from "lucide-react"
 import { Expense } from "@/types/expense"
 import { EXPENSE_CATEGORIES } from "@/constants/expense-categories"
-import { saveExpenses, loadExpenses } from "@/utils/storage"
+import { saveExpenses } from "@/utils/storage"
 
 export default function ExpenseInputForm() {
   const [expenses, setExpenses] = useState<Expense[]>([])
