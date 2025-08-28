@@ -10,34 +10,11 @@ import { Badge } from "@/components/ui/badge"
 import { Trash2Icon } from "lucide-react"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "./dataTable"
-
-interface Expense {
-  id: string
-  date: string
-  amount: number
-  category: string
-  memo: string
-  createdAt: number
-}
-
-const categories = [
-  { value: "food", label: "食費" },
-  { value: "living", label: "生活費" },
-  { value: "fixed", label: "固定費" },
-  { value: "misc", label: "雑費" },
-]
-
-const categoryColors = {
-  food: "bg-orange-100 text-orange-800",
-  living: "bg-blue-100 text-blue-800",
-  fixed: "bg-purple-100 text-purple-800",
-  misc: "bg-gray-100 text-gray-800",
-}
-
-// カテゴリ名を取得
-const getCategoryLabel = (value: string) => {
-  return categories.find((cat) => cat.value === value)?.label || value
-}
+import { Expense } from "@/types/expense"
+import { EPENSE_CATEGORY_COLORS } from "@/constants/expense-categories"
+import { formatAmount, formatDate } from "@/utils/format"
+import { saveExpenses, loadExpenses } from "@/utils/storage"
+import { getExpenseCategoryLabel } from "@/utils/expense"
 
 // テーブル列の定義
 const columns: ColumnDef<Expense>[] = [
@@ -53,57 +30,24 @@ const columns: ColumnDef<Expense>[] = [
     accessorKey: "category",
     header: "カテゴリ",
     cell:({row}) => {
-      return <Badge className={categoryColors[row.original.category as keyof typeof categoryColors]}>{getCategoryLabel(row.original.category)}</Badge>
+      return <Badge className={EPENSE_CATEGORY_COLORS[row.original.category as keyof typeof EPENSE_CATEGORY_COLORS]}>{getExpenseCategoryLabel(row.original.category)}</Badge>
     },
   },
 ]
 
-
-
 export default function ExpenseDashboard() {
   const [expenses, setExpenses] = useState<Expense[]>([])
-  // const [formData, setFormData] = useState({
-  //   date: new Date().toISOString().split("T")[0],
-  //   amount: "",
-  //   category: "",
-  //   memo: "",
-  // })
   // localStorageからデータを読み込み
   useEffect(() => {
-    const savedExpenses = localStorage.getItem("expenses")
-    if (savedExpenses) {
-      setExpenses(JSON.parse(savedExpenses))
-    }
+    setExpenses(loadExpenses())
   }, [])
   
-  // localStorageにデータを保存
-  const saveToLocalStorage = (newExpenses: Expense[]) => {
-    localStorage.setItem("expenses", JSON.stringify(newExpenses))
-  }
   // 支出を削除
   const handleDeleteExpense = (id: string) => {
     const updatedExpenses = expenses.filter((expense) => expense.id !== id)
     setExpenses(updatedExpenses)
-    saveToLocalStorage(updatedExpenses)
+    saveExpenses(updatedExpenses)
   }
-  // 金額をフォーマット
-  const formatAmount = (amount: number) => {
-    return new Intl.NumberFormat("ja-JP", {
-      style: "currency",
-      currency: "JPY",
-    }).format(amount)
-  }
-
-  // 日付をフォーマット
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("ja-JP", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    })
-  }
-
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -147,8 +91,8 @@ export default function ExpenseDashboard() {
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-3">
                           <span className="text-sm text-gray-500">{formatDate(expense.date)}</span>
-                          <Badge className={categoryColors[expense.category as keyof typeof categoryColors]}>
-                            {getCategoryLabel(expense.category)}
+                          <Badge className={EPENSE_CATEGORY_COLORS[expense.category as keyof typeof EPENSE_CATEGORY_COLORS]}>
+                            {getExpenseCategoryLabel(expense.category)}
                           </Badge>
                         </div>
                         <div className="flex items-center justify-between">

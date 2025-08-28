@@ -10,22 +10,9 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { CalendarIcon, PlusIcon} from "lucide-react"
-
-interface Expense {
-  id: string
-  date: string
-  amount: number
-  category: string
-  memo: string
-  createdAt: number
-}
-
-const categories = [
-  { value: "food", label: "食費" },
-  { value: "living", label: "生活費" },
-  { value: "fixed", label: "固定費" },
-  { value: "misc", label: "雑費" },
-]
+import { Expense } from "@/types/expense"
+import { EXPENSE_CATEGORIES } from "@/constants/expense-categories"
+import { saveExpenses } from "@/utils/storage"
 
 export default function ExpenseInputForm() {
   const [expenses, setExpenses] = useState<Expense[]>([])
@@ -35,11 +22,6 @@ export default function ExpenseInputForm() {
     category: "",
     memo: "",
   })
-
-  // localStorageにデータを保存
-  const saveToLocalStorage = (newExpenses: Expense[]) => {
-    localStorage.setItem("expenses", JSON.stringify(newExpenses))
-  }
 
   // 支出を追加
   const handleAddExpense = (e: React.FormEvent) => {
@@ -58,7 +40,7 @@ export default function ExpenseInputForm() {
     }
     const updatedExpenses = [newExpense, ...expenses]
     setExpenses(updatedExpenses)
-    saveToLocalStorage(updatedExpenses)
+    saveExpenses(updatedExpenses)
 
     // フォームをリセット（日付は今日のまま）
     setFormData({
@@ -127,7 +109,7 @@ export default function ExpenseInputForm() {
                     <SelectValue placeholder="カテゴリを選択してください" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
+                    {EXPENSE_CATEGORIES.map((category) => (
                       <SelectItem key={category.value} value={category.value}>
                         {category.label}
                       </SelectItem>
