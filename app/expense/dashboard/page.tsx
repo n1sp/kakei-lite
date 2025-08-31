@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -13,8 +12,9 @@ import { DataTable } from "./dataTable"
 import { Expense } from "@/types/expense"
 import { EPENSE_CATEGORY_COLORS } from "@/constants/expense-categories"
 import { formatAmount, formatDate } from "@/utils/format"
-import { saveExpenses, loadExpenses } from "@/utils/storage"
 import { getExpenseCategoryLabel } from "@/utils/expense"
+// localStorageのimportを削除し、API関数をimport
+import { fetchExpenses, deleteExpenseApi } from "@/utils/api"
 
 // テーブル列の定義
 const columns: ColumnDef<Expense>[] = [
@@ -29,7 +29,7 @@ const columns: ColumnDef<Expense>[] = [
   {
     accessorKey: "category",
     header: "カテゴリ",
-    cell:({row}) => {
+    cell: ({ row }) => {
       return <Badge className={EPENSE_CATEGORY_COLORS[row.original.category as keyof typeof EPENSE_CATEGORY_COLORS]}>{getExpenseCategoryLabel(row.original.category)}</Badge>
     },
   },
@@ -37,16 +37,65 @@ const columns: ColumnDef<Expense>[] = [
 
 export default function ExpenseDashboard() {
   const [expenses, setExpenses] = useState<Expense[]>([])
-  // localStorageからデータを読み込み
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // APIからデータを読み込み
   useEffect(() => {
-    setExpenses(loadExpenses())
+    const loadExpensesData = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchExpenses()
+        setExpenses(data)
+        setError(null)
+      } catch (err) {
+        console.error('Failed to load expenses:', err)
+        setError('支出データの読み込みに失敗しました')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadExpensesData()
   }, [])
-  
+
   // 支出を削除
-  const handleDeleteExpense = (id: string) => {
-    const updatedExpenses = expenses.filter((expense) => expense.id !== id)
-    setExpenses(updatedExpenses)
-    saveExpenses(updatedExpenses)
+  const handleDeleteExpense = async (id: string) => {
+    try {
+      await deleteExpenseApi(id)
+      // UIから即座に削除
+      setExpenses(prev => prev.filter(expense => expense.id !== id))
+    } catch (err) {
+      console.error('Failed to delete expense:', err)
+      alert('支出データの削除に失敗しました')
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center">
+            <p>読み込み中...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center text-red-600">
+            <p>{error}</p>
+            <Button onClick={() => window.location.reload()} className="mt-4">
+              再読み込み
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
