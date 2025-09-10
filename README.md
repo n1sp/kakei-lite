@@ -47,3 +47,4 @@ APIはREST形式で実装しています。
 ```http
 GET /api/expenses   # 支出一覧取得
 POST /api/expenses  # 支出登録
+```
