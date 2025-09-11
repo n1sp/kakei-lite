@@ -10,8 +10,6 @@ export default function Home() {
 
       {/* ページ遷移リンク */}
       <div className="flex gap-4">
-        {/* <Link href="/expense/dashboard" className="px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 transition-colors duration-150">支出一覧</Link>
-        <Link href="/expense/additional" className="px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 transition-colors duration-150">支出追加</Link> */}
         <Button asChild>
           <Link href="/expense/dashboard">支出一覧</Link>
         </Button>
