@@ -1,5 +1,8 @@
+"use client"
 import { GalleryVerticalEnd } from "lucide-react"
 
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,9 +12,23 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [email, setEmail] = useState("")
+  const [error, setError] = useState("")
+  const router = useRouter()
+
+  const hadleSubmit = (e : React.FormEvent) => {
+    e.preventDefault()
+    if (email === "test@example.com"){
+      setError("")
+      localStorage.setItem("isLoggedIn", "true")  // 疑似セッション
+      router.push("/expense")  // ホームへリダイレクト
+    }else{
+      setError("Invalid email address")
+    }
+  }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form>
+      <form onSubmit={hadleSubmit}>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-center gap-2">
             <a
@@ -38,6 +55,7 @@ export function LoginForm({
                 id="email"
                 type="email"
                 placeholder="m@example.com"
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
@@ -71,6 +89,7 @@ export function LoginForm({
             </Button>
           </div>
         </div>
+         {error && <p className="text-red-500 text-sm">{error}</p>}   {/*エラーメッセージ表示 */}
       </form>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
