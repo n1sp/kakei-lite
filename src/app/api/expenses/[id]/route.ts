@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { deleteExpense, updateExpense } from '@/lib/expense';
+import { deleteExpense, updateExpense } from '@/features/expense/api/endpoint';
 
 // DELETE (削除)
 export async function DELETE(

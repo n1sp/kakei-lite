@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabaseClient';
-import { Expense } from '@/types/expense';
+import { Expense } from '@/features/expense/types';
 
 // Supabaseのテーブル名（実際のテーブル名に合わせて変更）
 const TABLE_NAME = 'expenses';

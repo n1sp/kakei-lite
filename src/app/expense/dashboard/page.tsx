@@ -9,12 +9,12 @@ import { Badge } from "@/components/ui/badge"
 import { Trash2Icon } from "lucide-react"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "./dataTable"
-import { Expense } from "@/types/expense"
-import { EPENSE_CATEGORY_COLORS } from "@/constants/expense-categories"
+import { Expense } from "@/features/expense/types"
+import { EPENSE_CATEGORY_COLORS } from "@/features/expense/constants"
 import { formatAmount, formatDate } from "@/utils/format"
-import { getExpenseCategoryLabel } from "@/utils/expense"
+import { getExpenseCategoryLabel } from "@/features/expense/utils"
 // localStorageのimportを削除し、API関数をimport
-import { fetchExpenses, deleteExpenseApi } from "@/utils/api"
+import { fetchExpenses, deleteExpenseApi } from "@/features/expense/api/client"
 
 // テーブル列の定義
 const columns: ColumnDef<Expense>[] = [
