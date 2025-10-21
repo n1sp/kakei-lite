@@ -1,4 +1,4 @@
-import { EXPENSE_CATEGORIES } from "@/constants/expense-categories"
+import { EXPENSE_CATEGORIES } from "@/features/expense/constants"
 
 // 支出カテゴリ名を取得
 export const getExpenseCategoryLabel = (value: string) => {

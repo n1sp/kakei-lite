@@ -1,4 +1,4 @@
-import { Expense } from '@/types/expense';
+import { Expense } from '@/features/expense/types';
 
 // APIのベースURL（Java移行時にここを変更するだけ）
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createExpense, getAllExpenses } from '@/lib/expense';
+import { createExpense, getAllExpenses } from '@/features/expense/api/endpoint';
 
 
 // GET (一覧取得)

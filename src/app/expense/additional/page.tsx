@@ -10,9 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { CalendarIcon, PlusIcon } from "lucide-react"
 
-import { EXPENSE_CATEGORIES } from "@/constants/expense-categories"
+import { EXPENSE_CATEGORIES } from "@/features/expense/constants"
 // localStorageのimportを削除し、API関数をimport
-import { createExpenseApi } from "@/utils/api"
+import { createExpenseApi } from "@/features/expense/api/client"
 
 export default function ExpenseInputForm() {
   const [formData, setFormData] = useState({
